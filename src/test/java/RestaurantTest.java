@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalTime;
 
@@ -13,13 +14,17 @@ class RestaurantTest {
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
-        //WRITE UNIT TEST CASE HERE
+        restaurant = Mockito.spy(new Restaurant("Restro1","Patna",LocalTime.of(10,0),LocalTime.of(20,30)));
+        Mockito.when(restaurant.getCurrentTime()).thenReturn(LocalTime.of(12,35));
+        assertTrue(restaurant.isRestaurantOpen());
     }
 
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time(){
         //WRITE UNIT TEST CASE HERE
-
+        restaurant = Mockito.spy(new Restaurant("Restro1","Patna",LocalTime.of(10,0),LocalTime.of(18,0)));
+        Mockito.when(restaurant.getCurrentTime()).thenReturn(LocalTime.of(20,15,12));
+        assertFalse(restaurant.isRestaurantOpen());
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
